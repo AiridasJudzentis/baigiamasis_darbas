@@ -6,9 +6,6 @@ const Navigation = () => {
           <a href="/">Home</a>
         </li>
         <li>
-          <a href="/models">Models</a>
-        </li>
-        <li>
           <a href="/signup">Sign Up</a>
         </li>
         <li>

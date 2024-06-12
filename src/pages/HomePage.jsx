@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import Filter from "../components/Filter";
@@ -6,13 +7,22 @@ import Tabs from "../components/Tabs";
 import Footer from "../components/Footer";
 
 const HomePage = () => {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <div>
       <Header />
       <Navigation />
-      <Tabs />
+      <Tabs
+        selectedCategory={selectedCategory}
+        onCategorySelect={handleCategorySelect}
+      />
       <Filter />
-      <ModelsGrid />
+      <ModelsGrid selectedCategory={selectedCategory} />
       <Footer />
     </div>
   );

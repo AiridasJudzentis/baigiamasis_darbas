@@ -13,7 +13,6 @@ const modelSchema = new mongoose.Schema({
     vertices: Number,
   },
   categories: [String],
-  tags: [String],
   author: String,
   file_formats: [String],
   license: String,
