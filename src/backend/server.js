@@ -4,6 +4,7 @@ import cors from "cors";
 import Model from "./db/model.js";
 import User from "./db/user.js";
 import Order from "./db/order.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -65,6 +66,18 @@ app.get("/models", async (req, res) => {
   }
 });
 
+app.get("/models/:id", async (req, res) => {
+  try {
+    const model = await Model.findById(req.params.id).populate("author");
+    if (!model) {
+      return res.status(404).send({ message: "Model not found" });
+    }
+    res.send(model);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving model", error });
+  }
+});
+
 app.post("/users", async (req, res) => {
   const { username, email, password, full_name } = req.body;
 
@@ -86,6 +99,9 @@ app.post("/users", async (req, res) => {
 app.get("/users/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
     res.send(user);
   } catch (error) {
     res.status(500).send({ message: "Error retrieving user", error });

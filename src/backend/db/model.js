@@ -13,7 +13,7 @@ const modelSchema = new mongoose.Schema({
     vertices: Number,
   },
   categories: [String],
-  author: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   file_formats: [String],
   license: String,
 });
