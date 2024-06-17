@@ -1,11 +1,6 @@
 const Navigation = () => {
   return (
     <nav>
-      <div>
-        <h1 className="logo">
-          <a href="/">Model Marketplace</a>
-        </h1>
-      </div>
       <ul>
         <li>
           <a href="/cart">Cart</a>

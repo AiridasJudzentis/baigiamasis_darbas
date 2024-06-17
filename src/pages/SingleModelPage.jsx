@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Header from "../components/Header";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer";
+import ImageGallery from "../components/ImageGallery";
+import ModelInfo from "../components/ModelInfo";
+import UserInfo from "../components/UserInfo";
+import ModelDetails from "../components/ModelDetails";
 
 const SingleModelPage = () => {
   const { id } = useParams();
@@ -31,64 +38,23 @@ const SingleModelPage = () => {
     return <div>Loading...</div>;
   }
 
-  const calculateJoinDate = (date) => {
-    const joinDate = new Date(date);
-    const now = new Date();
-    const diffTime = Math.abs(now - joinDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays < 30) {
-      return `Joined ${diffDays} days ago`;
-    } else if (diffDays < 365) {
-      return `Joined ${Math.floor(diffDays / 30)} months ago`;
-    } else {
-      return `Joined ${Math.floor(diffDays / 365)} years ago`;
-    }
-  };
-
   return (
     <div className="single-model-page">
+      <Header />
+      <Navigation />
       <h1>{model.title}</h1>
-      <div className="image-gallery">
-        <img
-          src={model.images.featured}
-          alt={model.title}
-          className="main-image"
-        />
-        <div className="thumbnail-images">
-          {model.images.additional.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`${model.title} ${index}`}
-              className="thumbnail-image"
-            />
-          ))}
-        </div>
-      </div>
+      <ImageGallery images={model.images} title={model.title} />
       <div className="model-info">
-        <div className="price-info">
-          <h2>${model.price.toFixed(2)}</h2>
-          <p>{model.license}</p>
-          <button>Add to cart</button>
-        </div>
-        <div className="user-info">
-          <h3>{model.author.username}</h3>
-          <p>Posted {model.author.uploaded_models.length} models</p>
-          <p>{calculateJoinDate(model.author.date_joined)}</p>
-          <button>Hire</button>
-        </div>
+        <ModelInfo price={model.price} license={model.license} />
+        <UserInfo author={model.author} />
       </div>
-      <div className="model-details">
-        <h3>Description</h3>
-        <p>{model.description}</p>
-        <h3>Technical Info</h3>
-        <p>Triangles: {model.technical_info.triangles}</p>
-        <p>Vertices: {model.technical_info.vertices}</p>
-        <h3>File Formats</h3>
-        <p>{model.file_formats.join(", ")}</p>
-        <h3>Categories</h3>
-        <p>{model.categories.join(", ")}</p>
-      </div>
+      <ModelDetails
+        description={model.description}
+        technical_info={model.technical_info}
+        file_formats={model.file_formats}
+        categories={model.categories}
+      />
+      <Footer />
     </div>
   );
 };
