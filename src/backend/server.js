@@ -9,6 +9,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+mongoose.set("strictQuery", true);
+
 mongoose
   .connect(
     "mongodb+srv://airidasjudz:271378Vienas99sesi@cluster0.evl7qvg.mongodb.net/modelMarketplace?retryWrites=true&w=majority",
@@ -33,9 +35,10 @@ app.post("/models", async (req, res) => {
     technical_info,
     categories,
     author,
-    file_formats,
     license,
   } = req.body;
+
+  console.log("Received data:", req.body);
 
   const model = new Model({
     title,
@@ -45,7 +48,7 @@ app.post("/models", async (req, res) => {
     technical_info,
     categories,
     author,
-    file_formats,
+
     license,
   });
 
@@ -53,6 +56,7 @@ app.post("/models", async (req, res) => {
     await model.save();
     res.status(201).send(model);
   } catch (error) {
+    console.error("Error creating model:", error);
     res.status(500).send({ message: "Error creating model", error });
   }
 });
@@ -105,6 +109,14 @@ app.get("/users/:id", async (req, res) => {
     res.send(user);
   } catch (error) {
     res.status(500).send({ message: "Error retrieving user", error });
+  }
+});
+app.get("/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.send(users);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving users", error });
   }
 });
 

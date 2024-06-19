@@ -1,55 +1,34 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
-const ModelsGrid = ({ selectedCategory }) => {
-  const [models, setModels] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/models");
-        setModels(response.data);
-      } catch (error) {
-        console.error("Error fetching models:", error);
-        setError(error);
-      }
-    };
-
-    fetchModels();
-  }, []);
-
-  const filteredModels =
-    selectedCategory === "All"
-      ? models
-      : models.filter((model) => model.categories.includes(selectedCategory));
-
-  if (error) {
-    return <div>Error fetching models: {error.message}</div>;
-  }
-
+const ModelsGrid = ({ models }) => {
   return (
-    <section>
-      <div className="models-grid">
-        {filteredModels.map((model) => (
-          <div key={model._id} className="model-card">
-            <Link to={`/models/${model._id}`}>
-              <img src={model.images.featured} alt={model.title} />
-              <h3>{model.title}</h3>
-              <p>${model.price.toFixed(2)}</p>
-            </Link>
-            <p>Categories: {model.categories.join(", ")}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+    <div className="models-grid">
+      {models.map((model) => (
+        <div key={model._id} className="model-card">
+          <Link to={`/models/${model._id}`}>
+            <img
+              src={model.images.featured || "default-image-url.jpg"}
+              alt={model.title}
+            />
+            <h3>{model.title}</h3>
+          </Link>
+        </div>
+      ))}
+    </div>
   );
 };
 
 ModelsGrid.propTypes = {
-  selectedCategory: PropTypes.string.isRequired,
+  models: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      images: PropTypes.shape({
+        featured: PropTypes.string,
+      }).isRequired,
+    })
+  ).isRequired,
 };
 
 export default ModelsGrid;

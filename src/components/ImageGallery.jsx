@@ -1,16 +1,20 @@
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const ImageGallery = ({ images, title }) => {
+  const [mainImage, setMainImage] = useState(images.featured);
+
   return (
     <div className="image-gallery">
-      <img src={images.featured} alt={title} className="main-image" />
+      <img src={mainImage} alt={title} className="main-image" />
       <div className="thumbnail-images">
         {images.additional.map((img, index) => (
           <img
             key={index}
             src={img}
-            alt={`${title} ${index}`}
+            alt={`${title} thumbnail ${index}`}
             className="thumbnail-image"
+            onClick={() => setMainImage(img)}
           />
         ))}
       </div>

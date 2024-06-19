@@ -1,21 +1,21 @@
 import mongoose from "mongoose";
 
 const modelSchema = new mongoose.Schema({
-  title: String,
-  price: Number,
-  description: String,
+  title: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: { type: String, required: true },
   images: {
-    featured: String,
-    additional: [String],
+    featured: { type: String, required: true },
+    additional: [{ type: String }],
   },
   technical_info: {
-    triangles: Number,
-    vertices: Number,
+    triangles: { type: Number, required: true },
+    vertices: { type: Number, required: true },
   },
-  categories: [String],
-  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  file_formats: [String],
-  license: String,
+  categories: [{ type: String, required: true }],
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  file_formats: [{ type: String, required: true }],
+  license: { type: String, required: true },
 });
 
 const Model = mongoose.model("Model", modelSchema);

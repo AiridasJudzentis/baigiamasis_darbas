@@ -20,21 +20,24 @@ const categories = [
   "Military",
 ];
 
-const Tabs = ({ selectedCategory, onCategorySelect }) => {
-  return (
-    <div className="tabs">
+const Tabs = ({ selectedCategory, onCategorySelect }) => (
+  <div className="tabs">
+    <h2>Categories</h2>
+    <ul className="tabs-list">
       {categories.map((category) => (
-        <button
+        <li
           key={category}
-          className={selectedCategory === category ? "active" : ""}
+          className={
+            selectedCategory === category ? "tab-item active" : "tab-item"
+          }
           onClick={() => onCategorySelect(category)}
         >
           {category}
-        </button>
+        </li>
       ))}
-    </div>
-  );
-};
+    </ul>
+  </div>
+);
 
 Tabs.propTypes = {
   selectedCategory: PropTypes.string.isRequired,
