@@ -14,7 +14,6 @@ const modelSchema = new mongoose.Schema({
   },
   categories: [{ type: String, required: true }],
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  file_formats: [{ type: String, required: true }],
   license: { type: String, required: true },
 });
 

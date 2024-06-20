@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../components/Header";
 import ModelsGrid from "../components/ModelsGrid";
 import Tabs from "../components/Tabs";
 import Footer from "../components/Footer";
@@ -42,7 +41,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <Header />
       <Tabs
         selectedCategory={selectedCategory}
         onCategorySelect={handleCategorySelect}

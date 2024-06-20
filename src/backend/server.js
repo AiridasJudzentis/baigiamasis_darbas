@@ -48,7 +48,6 @@ app.post("/models", async (req, res) => {
     technical_info,
     categories,
     author,
-
     license,
   });
 
@@ -56,7 +55,7 @@ app.post("/models", async (req, res) => {
     await model.save();
     res.status(201).send(model);
   } catch (error) {
-    console.error("Error creating model:", error);
+    console.error("Error creating model:", error.message);
     res.status(500).send({ message: "Error creating model", error });
   }
 });
@@ -143,6 +142,36 @@ app.get("/orders", async (req, res) => {
     res.send(orders);
   } catch (error) {
     res.status(500).send({ message: "Error retrieving orders", error });
+  }
+});
+
+app.post("/signup", async (req, res) => {
+  const { full_name, username, email, password } = req.body;
+  const user = new User({
+    full_name,
+    username,
+    email,
+    password,
+  });
+
+  try {
+    await user.save();
+    res.status(201).send(user);
+  } catch (error) {
+    res.status(500).send({ message: "Error creating user", error });
+  }
+});
+
+app.post("/signin", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email, password });
+    if (!user) {
+      return res.status(401).send({ message: "Invalid email or password" });
+    }
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ message: "Error signing in", error });
   }
 });
 

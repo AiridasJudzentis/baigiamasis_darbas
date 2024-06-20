@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ImageGallery from "../components/ImageGallery";
 import ModelInfo from "../components/ModelInfo";
@@ -21,7 +20,6 @@ const SingleModelPage = () => {
 
   return (
     <div className="single-model-page">
-      <Header />
       <h1>{model.title}</h1>
       <ImageGallery images={model.images} title={model.title} />
       <div className="model-info">

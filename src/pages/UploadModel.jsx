@@ -1,10 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import Header from "../components/Header";
-import FormField from "../components/FormField";
-import useFetchUsers from "../hooks/useFetchUsers";
 
-const UploadModel = () => {
+const UploadModel = ({ user }) => {
   const categories = [
     "All",
     "Aircraft",
@@ -45,10 +42,8 @@ const UploadModel = () => {
     triangles: "",
     vertices: "",
     categories: [],
-    authorId: "",
     license: "",
   });
-  const { users, error: userFetchError } = useFetchUsers();
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleInputChange = (e) => {
@@ -79,25 +74,18 @@ const UploadModel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      alert("You must be signed in to upload a model.");
+      return;
+    }
     const model = {
-      title: modelData.title,
-      price: modelData.price,
-      description: modelData.description,
+      ...modelData,
       images: {
         featured: modelData.featuredImage,
         additional: modelData.otherImages,
       },
-      technical_info: {
-        triangles: modelData.triangles,
-        vertices: modelData.vertices,
-      },
-      categories: modelData.categories,
-      author: modelData.authorId,
-      license: modelData.license,
+      author: user._id,
     };
-
-    console.log("Model data being sent:", model);
-
     try {
       await axios.post("http://localhost:3000/models", model);
       setSuccessMessage("Model uploaded successfully!");
@@ -113,7 +101,6 @@ const UploadModel = () => {
 
   return (
     <div className="upload-form-container">
-      <Header />
       {successMessage && <div className="success-banner">{successMessage}</div>}
       <h2>Upload Model</h2>
       <form onSubmit={handleSubmit}>
@@ -129,14 +116,27 @@ const UploadModel = () => {
           { label: "Triangles", name: "triangles", type: "number" },
           { label: "Vertices", name: "vertices", type: "number" },
         ].map((field) => (
-          <FormField
-            key={field.name}
-            label={field.label}
-            name={field.name}
-            type={field.type}
-            value={modelData[field.name]}
-            onChange={handleInputChange}
-          />
+          <div className="form-group" key={field.name}>
+            <label htmlFor={field.name}>{field.label}:</label>
+            {field.type === "textarea" ? (
+              <textarea
+                id={field.name}
+                name={field.name}
+                value={modelData[field.name]}
+                onChange={handleInputChange}
+                required
+              />
+            ) : (
+              <input
+                type={field.type}
+                id={field.name}
+                name={field.name}
+                value={modelData[field.name]}
+                onChange={handleInputChange}
+                required
+              />
+            )}
+          </div>
         ))}
 
         <div className="form-group">
@@ -171,35 +171,30 @@ const UploadModel = () => {
           </select>
         </div>
 
-        <FormField
-          label="Author"
-          name="authorId"
-          type="select"
-          value={modelData.authorId}
-          onChange={handleInputChange}
-          options={users.map((user) => ({
-            value: user._id,
-            label: user.username,
-          }))}
-        />
-
-        <FormField
-          label="License"
-          name="license"
-          type="select"
-          value={modelData.license}
-          onChange={handleInputChange}
-          options={licenses.map((licenseOption) => ({
-            value: licenseOption,
-            label: licenseOption,
-          }))}
-        />
+        <div className="form-group">
+          <label htmlFor="license">License:</label>
+          <select
+            id="license"
+            name="license"
+            value={modelData.license}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="" disabled>
+              Select License
+            </option>
+            {licenses.map((licenseOption) => (
+              <option key={licenseOption} value={licenseOption}>
+                {licenseOption}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="form-group">
           <button type="submit">Upload Model</button>
         </div>
       </form>
-      {userFetchError && <p>Error fetching users: {userFetchError.message}</p>}
     </div>
   );
 };
