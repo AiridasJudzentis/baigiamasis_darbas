@@ -1,14 +1,29 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import ImageGallery from "../components/ImageGallery";
 import ModelInfo from "../components/ModelInfo";
 import UserInfo from "../components/UserInfo";
 import ModelDetails from "../components/ModelDetails";
-import useModelData from "../hooks/useModelData";
 
 const SingleModelPage = () => {
   const { id } = useParams();
-  const { model, error } = useModelData(id);
+  const [model, setModel] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchModel = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/models/${id}`);
+        setModel(response.data);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    fetchModel();
+  }, [id]);
 
   if (error) {
     return <div>Error fetching model: {error.message}</div>;

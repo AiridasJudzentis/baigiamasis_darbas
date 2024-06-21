@@ -1,34 +1,48 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 const Header = ({ user, logout }) => {
   return (
     <header>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          {user ? (
-            <>
-              <li>
-                <Link to="/upload">Upload Model</Link>
-              </li>
-              <li>
-                <button onClick={logout}>Logout ({user.username})</button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <Link to="/signin">Sign In</Link>
-              </li>
-              <li>
-                <Link to="/signup">Sign Up</Link>
-              </li>
-            </>
-          )}
-        </ul>
-      </nav>
+      <div className="container">
+        <div className="logo">
+          <Link to="/">
+            <img src={logo} alt="Logo" />
+          </Link>
+        </div>
+        <nav>
+          <ul>
+            {user ? (
+              <>
+                <button className="uploadmodelbtn">
+                  <Link to="/upload">Upload Model</Link>
+                </button>
+
+                <li>
+                  <button className="logoutbtn" onClick={logout}>
+                    Log Out
+                  </button>
+                </li>
+
+                <li className="loggedin">
+                  <span>Logged in as: </span>
+                  <span>{user.username}</span>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/signin">Sign In</Link>
+                </li>
+                <li>
+                  <Link to="/signup">Sign Up</Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </div>
     </header>
   );
 };

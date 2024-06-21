@@ -22,20 +22,21 @@ const categories = [
 
 const Tabs = ({ selectedCategory, onCategorySelect }) => (
   <div className="tabs">
-    <h2>Categories</h2>
-    <ul className="tabs-list">
-      {categories.map((category) => (
-        <li
-          key={category}
-          className={
-            selectedCategory === category ? "tab-item active" : "tab-item"
-          }
-          onClick={() => onCategorySelect(category)}
-        >
-          {category}
-        </li>
-      ))}
-    </ul>
+    <div className="container">
+      <ul className="tabs-list">
+        {categories.map((category) => (
+          <li
+            key={category}
+            className={
+              selectedCategory === category ? "tab-item active" : "tab-item"
+            }
+            onClick={() => onCategorySelect(category)}
+          >
+            {category}
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 );
 

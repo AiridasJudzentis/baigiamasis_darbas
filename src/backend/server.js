@@ -13,7 +13,7 @@ mongoose.set("strictQuery", true);
 
 mongoose
   .connect(
-    "mongodb+srv://airidasjudz:271378Vienas99sesi@cluster0.evl7qvg.mongodb.net/modelMarketplace?retryWrites=true&w=majority",
+    "mongodb+srv://airidasjudz:Test123456@cluster0.evl7qvg.mongodb.net/modelMarketplace?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -1,20 +1,15 @@
+import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import ModelCard from "./ModelCard";
 
 const ModelsGrid = ({ models }) => {
   return (
-    <div className="models-grid">
-      {models.map((model) => (
-        <div key={model._id} className="model-card">
-          <Link to={`/models/${model._id}`}>
-            <img
-              src={model.images.featured || "default-image-url.jpg"}
-              alt={model.title}
-            />
-            <h3>{model.title}</h3>
-          </Link>
-        </div>
-      ))}
+    <div className="container">
+      <div className="models-grid">
+        {models.map((model) => (
+          <ModelCard key={model._id} model={model} />
+        ))}
+      </div>
     </div>
   );
 };
@@ -27,6 +22,7 @@ ModelsGrid.propTypes = {
       images: PropTypes.shape({
         featured: PropTypes.string,
       }).isRequired,
+      price: PropTypes.number.isRequired,
     })
   ).isRequired,
 };

@@ -1,38 +1,9 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 const UploadModel = ({ user }) => {
-  const categories = [
-    "All",
-    "Aircraft",
-    "Animals",
-    "Architectural",
-    "Exterior",
-    "Interior",
-    "Car",
-    "Character",
-    "Food",
-    "Furniture",
-    "Household",
-    "Industrial",
-    "Plant",
-    "Space",
-    "Vehicle",
-    "Watercraft",
-    "Military",
-  ];
-
-  const licenses = [
-    "Games",
-    "Digital Media",
-    "News",
-    "Corporate use",
-    "Education",
-    "Product design",
-    "Physical creations",
-    "3D printing",
-  ];
-
   const [modelData, setModelData] = useState({
     title: "",
     price: "",
@@ -45,6 +16,13 @@ const UploadModel = ({ user }) => {
     license: "",
   });
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin");
+    }
+  }, [user, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -74,15 +52,15 @@ const UploadModel = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) {
-      alert("You must be signed in to upload a model.");
-      return;
-    }
     const model = {
       ...modelData,
       images: {
         featured: modelData.featuredImage,
         additional: modelData.otherImages,
+      },
+      technical_info: {
+        vertices: modelData.vertices,
+        triangles: modelData.triangles,
       },
       author: user._id,
     };
@@ -91,7 +69,7 @@ const UploadModel = ({ user }) => {
       setSuccessMessage("Model uploaded successfully!");
       setTimeout(() => {
         setSuccessMessage("");
-        window.location.href = "/";
+        navigate("/");
       }, 1000);
     } catch (error) {
       console.error("Error uploading model:", error);
@@ -101,6 +79,7 @@ const UploadModel = ({ user }) => {
 
   return (
     <div className="upload-form-container">
+      <Header />
       {successMessage && <div className="success-banner">{successMessage}</div>}
       <h2>Upload Model</h2>
       <form onSubmit={handleSubmit}>
@@ -163,7 +142,24 @@ const UploadModel = ({ user }) => {
             value={modelData.categories}
             onChange={handleCategoryChange}
           >
-            {categories.map((category) => (
+            {[
+              "Aircraft",
+              "Animals",
+              "Architectural",
+              "Exterior",
+              "Interior",
+              "Car",
+              "Character",
+              "Food",
+              "Furniture",
+              "Household",
+              "Industrial",
+              "Plant",
+              "Space",
+              "Vehicle",
+              "Watercraft",
+              "Military",
+            ].map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
@@ -183,7 +179,16 @@ const UploadModel = ({ user }) => {
             <option value="" disabled>
               Select License
             </option>
-            {licenses.map((licenseOption) => (
+            {[
+              "Games",
+              "Digital Media",
+              "News",
+              "Corporate use",
+              "Education",
+              "Product design",
+              "Physical creations",
+              "3D printing",
+            ].map((licenseOption) => (
               <option key={licenseOption} value={licenseOption}>
                 {licenseOption}
               </option>
