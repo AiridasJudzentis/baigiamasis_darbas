@@ -33,7 +33,7 @@ const Header = ({ user, logout }) => {
             ) : (
               <>
                 <li>
-                  <Link to="/signin">Sign In</Link>
+                  <Link to="/signin">Log In</Link>
                 </li>
                 <li>
                   <Link to="/signup">Sign Up</Link>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const UploadModel = ({ user }) => {
   const [modelData, setModelData] = useState({
@@ -30,11 +30,13 @@ const UploadModel = ({ user }) => {
   };
 
   const handleCategoryChange = (e) => {
-    const value = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setModelData((prevData) => ({ ...prevData, categories: value }));
+    const { value, checked } = e.target;
+    setModelData((prevData) => ({
+      ...prevData,
+      categories: checked
+        ? [...prevData.categories, value]
+        : prevData.categories.filter((category) => category !== value),
+    }));
   };
 
   const handleOtherImagesChange = (index, value) => {
@@ -78,128 +80,171 @@ const UploadModel = ({ user }) => {
   };
 
   return (
-    <div className="upload-form-container">
-      <Header />
-      {successMessage && <div className="success-banner">{successMessage}</div>}
-      <h2>Upload Model</h2>
-      <form onSubmit={handleSubmit}>
-        {[
-          { label: "Name of model", name: "title", type: "text" },
-          { label: "Price", name: "price", type: "number" },
-          { label: "Description", name: "description", type: "textarea" },
-          {
-            label: "URL of featured image",
-            name: "featuredImage",
-            type: "text",
-          },
-          { label: "Triangles", name: "triangles", type: "number" },
-          { label: "Vertices", name: "vertices", type: "number" },
-        ].map((field) => (
-          <div className="form-group" key={field.name}>
-            <label htmlFor={field.name}>{field.label}:</label>
-            {field.type === "textarea" ? (
-              <textarea
-                id={field.name}
-                name={field.name}
-                value={modelData[field.name]}
-                onChange={handleInputChange}
-                required
-              />
-            ) : (
-              <input
-                type={field.type}
-                id={field.name}
-                name={field.name}
-                value={modelData[field.name]}
-                onChange={handleInputChange}
-                required
-              />
-            )}
+    <div id="root">
+      <div className="upload-form-container">
+        {successMessage && (
+          <div className="success-banner">{successMessage}</div>
+        )}
+        <h2>Upload Model</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-columns">
+            <div className="form-column">
+              <div className="form-group">
+                <label htmlFor="title">Name of model:</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={modelData.title}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="price">Price ($):</label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={modelData.price}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Description:</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={modelData.description}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Categories:</label>
+                <div className="checkbox-group">
+                  {[
+                    "Aircraft",
+                    "Animals",
+                    "Architectural",
+                    "Exterior",
+                    "Interior",
+                    "Car",
+                    "Character",
+                    "Food",
+                    "Furniture",
+                    "Household",
+                    "Industrial",
+                    "Plant",
+                    "Space",
+                    "Vehicle",
+                    "Watercraft",
+                    "Military",
+                  ].map((category) => (
+                    <div key={category} className="checkbox-item">
+                      <input
+                        type="checkbox"
+                        id={category}
+                        value={category}
+                        checked={modelData.categories.includes(category)}
+                        onChange={handleCategoryChange}
+                      />
+                      <label htmlFor={category}>{category}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-column">
+              <div className="form-group">
+                <label htmlFor="featuredImage">URL of featured image:</label>
+                <input
+                  type="text"
+                  id="featuredImage"
+                  name="featuredImage"
+                  value={modelData.featuredImage}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>URLs of other model images:</label>
+                {modelData.otherImages.map((image, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    value={image}
+                    onChange={(e) =>
+                      handleOtherImagesChange(index, e.target.value)
+                    }
+                    required
+                  />
+                ))}
+                <button type="button" onClick={addImageField}>
+                  Add another image
+                </button>
+              </div>
+              <div className="form-group">
+                <label htmlFor="triangles">Triangles:</label>
+                <input
+                  type="number"
+                  id="triangles"
+                  name="triangles"
+                  value={modelData.triangles}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="vertices">Vertices:</label>
+                <input
+                  type="number"
+                  id="vertices"
+                  name="vertices"
+                  value={modelData.vertices}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="license">License:</label>
+                <select
+                  id="license"
+                  name="license"
+                  value={modelData.license}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="" disabled>
+                    Select License
+                  </option>
+                  {[
+                    "Games",
+                    "Digital Media",
+                    "News",
+                    "Corporate use",
+                    "Education",
+                    "Product design",
+                    "Physical creations",
+                    "3D printing",
+                  ].map((licenseOption) => (
+                    <option key={licenseOption} value={licenseOption}>
+                      {licenseOption}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
-        ))}
 
-        <div className="form-group">
-          <label>URLs of other model images:</label>
-          {modelData.otherImages.map((image, index) => (
-            <input
-              key={index}
-              type="text"
-              value={image}
-              onChange={(e) => handleOtherImagesChange(index, e.target.value)}
-              required
-            />
-          ))}
-          <button type="button" onClick={addImageField}>
-            Add another image
-          </button>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="categories">Categories:</label>
-          <select
-            id="categories"
-            multiple
-            value={modelData.categories}
-            onChange={handleCategoryChange}
-          >
-            {[
-              "Aircraft",
-              "Animals",
-              "Architectural",
-              "Exterior",
-              "Interior",
-              "Car",
-              "Character",
-              "Food",
-              "Furniture",
-              "Household",
-              "Industrial",
-              "Plant",
-              "Space",
-              "Vehicle",
-              "Watercraft",
-              "Military",
-            ].map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="license">License:</label>
-          <select
-            id="license"
-            name="license"
-            value={modelData.license}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="" disabled>
-              Select License
-            </option>
-            {[
-              "Games",
-              "Digital Media",
-              "News",
-              "Corporate use",
-              "Education",
-              "Product design",
-              "Physical creations",
-              "3D printing",
-            ].map((licenseOption) => (
-              <option key={licenseOption} value={licenseOption}>
-                {licenseOption}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <button type="submit">Upload Model</button>
-        </div>
-      </form>
+          <div className="form-group">
+            <button type="submit">Upload Model</button>
+          </div>
+        </form>
+      </div>
+      <Footer />
     </div>
   );
 };

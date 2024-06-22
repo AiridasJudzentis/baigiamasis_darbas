@@ -40,7 +40,7 @@ const HomePage = () => {
   }
 
   return (
-    <div>
+    <div id="root">
       <Tabs
         selectedCategory={selectedCategory}
         onCategorySelect={handleCategorySelect}

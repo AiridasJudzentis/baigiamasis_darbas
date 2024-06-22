@@ -1,4 +1,5 @@
-/* General Styles */
+/* General styles remain unchanged */
+html,
 body {
   font-family: "Roboto", sans-serif;
   margin: 0;
@@ -7,6 +8,14 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100%;
 }
 
 header,
@@ -37,7 +46,7 @@ header .container {
 header {
   background-color: #202124;
   color: #ffffff;
-  padding: 10px 20px;
+  padding: 10px 0px;
   width: 100%;
   position: sticky;
   top: 0;
@@ -80,36 +89,36 @@ nav a {
 
 .uploadmodelbtn {
   background-color: #1a73e8;
-  padding: 10px 10px 10px 10px;
+  padding: 12px 10px;
   border-radius: 10px;
   border: 0px;
   color: whitesmoke;
   font-weight: 600;
+  cursor: pointer;
+  min-height: 25px;
 }
 
 .logoutbtn {
   background-color: rgb(190, 7, 7);
-  padding: 10px 10px 10px 10px;
+  padding: 12px 10px;
   border-radius: 10px;
   border: 0px;
   color: whitesmoke;
   font-weight: 600;
+  cursor: pointer;
+  min-height: 25px;
 }
 
 /* Tabs */
 .tabs {
   padding: 20px;
-  background-color: #f1f3f4;
+  background-color: #ffffff;
   border-radius: 5px;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-}
-
-.tabs h2 {
-  margin-bottom: 10px;
 }
 
 .tabs-list {
@@ -186,7 +195,7 @@ nav a {
 
 .model-card img {
   width: 100%;
-  height: 100%;
+  height: auto;
   flex-grow: 1;
 }
 
@@ -206,6 +215,11 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 700px;
+  border: 2px solid rgb(183, 183, 183);
+  border-radius: 10px;
+  padding-bottom: 50px;
+  padding-top: 20px;
 }
 
 .main-image {
@@ -225,28 +239,98 @@ footer {
 }
 
 /* Model Info */
-.model-info {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+.single-model-page {
+  margin-top: 80px;
 }
 
+.model-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1024px;
+  height: 100%;
+  border: 2px solid rgb(183, 183, 183);
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-bottom: 50px;
+  gap: 100px;
+  padding-top: 20px;
+}
+.cartbtn {
+  background-color: #0c9805;
+  padding: 12px 10px;
+  border-radius: 10px;
+  border: 0px;
+  color: whitesmoke;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 25px;
+}
+.deletebtn {
+  background-color: #d9534f;
+  padding: 12px 10px;
+  border-radius: 10px;
+  border: 0px;
+  color: whitesmoke;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 25px;
+}
 .price-info {
   flex: 1;
 }
 
 .user-info {
   flex: 1;
-  text-align: right;
+  text-align: left;
+}
+.model-content h1 {
+  padding-left: 20px;
+}
+.model-details {
+  width: 100%;
+  max-width: 1024px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 2px solid rgb(183, 183, 183);
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-.model-details {
-  margin-top: 20px;
+.model-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 100px;
+  align-items: flex-start;
+}
+
+.model-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.model-description {
+  flex: 2;
+}
+
+.model-details-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* Upload Form */
 .upload-form-container {
-  max-width: 600px;
+  max-width: 1024px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -316,24 +400,87 @@ footer {
   border-radius: 5px;
 }
 
-/* Single Model Page */
-.single-model-page {
+.form-columns {
   display: flex;
-  flex-direction: column;
+  gap: 40px;
+  margin-right: 20px;
+}
+
+.form-column {
+  flex: 1;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.checkbox-item {
+  display: flex;
   align-items: center;
+  gap: 5px;
+}
+
+/* Auth Form Styles */
+.auth-form-container {
+  max-width: 400px;
+  margin: 50px auto;
   padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.model-info {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 800px;
-  margin-top: 20px;
+.auth-form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #202124;
 }
 
-.model-details {
-  width: 100%;
-  max-width: 800px;
-  margin-top: 20px;
+.auth-form-container .form-group {
+  margin-bottom: 15px;
+  text-align: center; /* Center the form group */
+}
+
+.auth-form-container .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #202124;
+}
+
+.auth-form-container .form-group input {
+  width: 80%; /* Adjust width to your preference */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 auto; /* Center the input field */
+}
+
+.auth-form-container button[type="submit"] {
+  width: 80%; /* Adjust width to your preference */
+  padding: 10px;
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 auto; /* Center the button */
+  display: block;
+}
+
+.auth-form-container button[type="submit"]:hover {
+  background-color: #0c5cbd;
+}
+
+.auth-form-container p {
+  text-align: center;
+  margin-top: 15px;
+  color: #202124;
+}
+
+.auth-form-container p a {
+  color: #1a73e8;
+  text-decoration: none;
 }

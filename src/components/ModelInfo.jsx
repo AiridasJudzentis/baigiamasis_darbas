@@ -5,7 +5,7 @@ const ModelInfo = ({ price, license }) => {
     <div className="price-info">
       <h2>${price.toFixed(2)}</h2>
       <p>{license}</p>
-      <button>Add to cart</button>
+      <button className="cartbtn">Add to cart</button>
     </div>
   );
 };

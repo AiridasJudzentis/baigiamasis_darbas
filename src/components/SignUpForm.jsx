@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const SignUpForm = ({ login }) => {
   const [formData, setFormData] = useState({
@@ -32,54 +33,62 @@ const SignUpForm = ({ login }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
-      <div className="form-group">
-        <label htmlFor="full_name">Full Name:</label>
-        <input
-          type="text"
-          id="full_name"
-          name="full_name"
-          value={formData.full_name}
-          onChange={handleInputChange}
-          required
-        />
+    <div id="root">
+      <div className="auth-form-container">
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="full_name">Full Name:</label>
+            <input
+              type="text"
+              id="full_name"
+              name="full_name"
+              value={formData.full_name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+        <p>
+          Already have an account? <a href="/signin">Sign In</a>
+        </p>
       </div>
-      <div className="form-group">
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <button type="submit">Sign Up</button>
-    </form>
+      <Footer />
+    </div>
   );
 };
 

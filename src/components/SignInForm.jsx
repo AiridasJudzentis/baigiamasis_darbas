@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const SignInForm = ({ login }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -27,32 +28,40 @@ const SignInForm = ({ login }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign In</h2>
-      <div className="form-group">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          required
-        />
+    <div id="root">
+      <div className="auth-form-container">
+        <h2>Log In</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <button type="submit">Sign In</button>
+        </form>
+        <p>
+          Don't have an account? <a href="/signup">Sign Up</a>
+        </p>
       </div>
-      <div className="form-group">
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <button type="submit">Sign In</button>
-    </form>
+      <Footer />
+    </div>
   );
 };
 
