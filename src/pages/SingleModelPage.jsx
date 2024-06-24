@@ -48,6 +48,7 @@ const SingleModelPage = ({ user }) => {
     <div id="root">
       <div className="container">
         <div className="single-model-page">
+          <h1>{model.title}</h1>
           <div className="model-header">
             <ImageGallery images={model.images} title={model.title} />
             <div className="model-info">
@@ -66,8 +67,6 @@ const SingleModelPage = ({ user }) => {
             </div>
           </div>
           <div className="model-content">
-            <h1>{model.title}</h1>
-
             {model.technical_info ? (
               <ModelDetails
                 description={model.description}
