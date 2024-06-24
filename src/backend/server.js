@@ -1,8 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
 import Model from "./db/model.js";
 import User from "./db/user.js";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -11,13 +14,10 @@ app.use(express.json());
 mongoose.set("strictQuery", true);
 
 mongoose
-  .connect(
-    "mongodb+srv://airidasjudz:Test123456@cluster0.evl7qvg.mongodb.net/modelMarketplace?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -163,6 +163,8 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
