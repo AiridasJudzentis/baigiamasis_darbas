@@ -56,6 +56,7 @@ nav {
   align-items: center;
   background-color: #202124;
   color: white;
+  padding: 0;
 }
 
 nav ul {
