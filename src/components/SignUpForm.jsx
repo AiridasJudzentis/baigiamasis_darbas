@@ -10,6 +10,7 @@ const SignUpForm = ({ login }) => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -28,7 +29,7 @@ const SignUpForm = ({ login }) => {
       navigate("/");
     } catch (error) {
       console.error("Error signing up:", error.response.data);
-      alert(`Error signing up: ${error.response.data.message}`);
+      setError(error.response.data.message);
     }
   };
 
@@ -36,6 +37,7 @@ const SignUpForm = ({ login }) => {
     <div id="root">
       <div className="auth-form-container">
         <h2>Sign Up</h2>
+        {error && <div className="error-banner">{error}</div>}{" "}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="full_name">Full Name:</label>
