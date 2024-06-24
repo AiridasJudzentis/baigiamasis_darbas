@@ -27,13 +27,13 @@ const Header = ({ user, logout }) => {
 
                 <li className="loggedin">
                   <span>Logged in as: </span>
-                  <span>{user.username}</span>
+                  <span>{user.full_name}</span>
                 </li>
               </>
             ) : (
               <>
                 <li>
-                  <Link to="/signin">Log In</Link>
+                  <Link to="/signin">Sign In</Link>
                 </li>
                 <li>
                   <Link to="/signup">Sign Up</Link>

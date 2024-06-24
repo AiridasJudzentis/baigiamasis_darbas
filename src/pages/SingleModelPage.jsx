@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import ImageGallery from "../components/ImageGallery";
 import ModelInfo from "../components/ModelInfo";
@@ -51,7 +51,13 @@ const SingleModelPage = ({ user }) => {
           <div className="model-header">
             <ImageGallery images={model.images} title={model.title} />
             <div className="model-info">
-              <ModelInfo price={model.price} license={model.license} />
+              <ModelInfo
+                price={model.price}
+                license={model.license}
+                user={user}
+                modelAuthorFullName={model.author.full_name}
+                handleDelete={handleDelete}
+              />
               {model.author ? (
                 <UserInfo author={model.author} />
               ) : (
@@ -70,26 +76,6 @@ const SingleModelPage = ({ user }) => {
               />
             ) : (
               <div>Loading model details...</div>
-            )}
-            <div className="tabs">
-              <ul className="tabs-list">
-                {model.categories.map((category) => (
-                  <li key={category} className="tab-item">
-                    {category}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {user ? (
-              model.author._id === user._id ? (
-                <button className="deletebtn" onClick={handleDelete}>
-                  Delete Model
-                </button>
-              ) : (
-                <button className="cartbtn">Purchase</button>
-              )
-            ) : (
-              <button className="cartbtn">Purchase</button>
             )}
           </div>
         </div>

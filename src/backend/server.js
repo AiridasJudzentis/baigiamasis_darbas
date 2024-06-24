@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import cors from "cors";
 import Model from "./db/model.js";
 import User from "./db/user.js";
-import Order from "./db/order.js";
 
 const app = express();
 app.use(cors());
@@ -110,38 +109,27 @@ app.get("/users/:id", async (req, res) => {
     res.status(500).send({ message: "Error retrieving user", error });
   }
 });
+
+app.delete("/models/:id", async (req, res) => {
+  try {
+    const model = await Model.findById(req.params.id);
+    if (!model) {
+      return res.status(404).send({ message: "Model not found" });
+    }
+
+    await model.remove();
+    res.send({ message: "Model deleted successfully" });
+  } catch (error) {
+    res.status(500).send({ message: "Error deleting model", error });
+  }
+});
+
 app.get("/users", async (req, res) => {
   try {
     const users = await User.find();
     res.send(users);
   } catch (error) {
     res.status(500).send({ message: "Error retrieving users", error });
-  }
-});
-
-app.post("/orders", async (req, res) => {
-  const { user_id, model_ids, total_price } = req.body;
-
-  const order = new Order({
-    user_id,
-    model_ids,
-    total_price,
-  });
-
-  try {
-    await order.save();
-    res.status(201).send(order);
-  } catch (error) {
-    res.status(500).send({ message: "Error creating order", error });
-  }
-});
-
-app.get("/orders", async (req, res) => {
-  try {
-    const orders = await Order.find();
-    res.send(orders);
-  } catch (error) {
-    res.status(500).send({ message: "Error retrieving orders", error });
   }
 });
 
