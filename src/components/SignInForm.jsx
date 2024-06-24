@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 
 const SignInForm = ({ login }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -23,7 +24,7 @@ const SignInForm = ({ login }) => {
       navigate("/");
     } catch (error) {
       console.error("Error signing in:", error.response.data);
-      alert(`Error signing in: ${error.response.data.message}`);
+      setError(error.response.data.message);
     }
   };
 
@@ -31,6 +32,7 @@ const SignInForm = ({ login }) => {
     <div id="root">
       <div className="auth-form-container">
         <h2>Log In</h2>
+        {error && <div className="error-banner">{error}</div>}{" "}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
